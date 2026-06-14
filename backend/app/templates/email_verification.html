@@ -1,0 +1,285 @@
+<!-- backend/app/templates/email_verification.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email - Femuki Agencies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .email-wrapper {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+        }
+        
+        .logo img {
+            max-width: 80px;
+            height: auto;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+            background: #ffffff;
+        }
+        
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6b00 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 140, 0, 0.4);
+        }
+        
+        .link-container {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            word-break: break-all;
+        }
+        
+        .link {
+            color: #ff8c00;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff8c00;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #856404;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            padding: 20px 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .feature-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: #ff8c00;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .features {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .button {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">
+                    <!-- Replace with actual logo URL -->
+                    <img src="{{ logo_url }}" alt="Femuki Agencies" style="max-width: 80px;">
+                </div>
+                <h1>Verify Your Email Address</h1>
+                <p>Complete your registration</p>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
+                <div class="greeting">
+                    Hello {{ full_name }},
+                </div>
+                
+                <div class="message">
+                    <p>Thank you for registering with <strong>Femuki Agencies</strong>!</p>
+                    <p>Please verify your email address to complete your registration and start shopping for quality household items at affordable prices.</p>
+                </div>
+                
+                <div class="button-container">
+                    <a href="{{ verification_url }}" class="button">Verify Email Address</a>
+                </div>
+                
+                <div class="link-container">
+                    <p style="margin-bottom: 8px; font-size: 14px; color: #666;">Or copy and paste this link:</p>
+                    <a href="{{ verification_url }}" class="link">{{ verification_url }}</a>
+                </div>
+                
+                <div class="warning">
+                    <strong>⚠️ This link will expire in 24 hours.</strong>
+                </div>
+                
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">🛍️</div>
+                        <div class="feature-title">500+ Products</div>
+                        <div class="feature-desc">Quality items in stock</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🚚</div>
+                        <div class="feature-title">Free Delivery</div>
+                        <div class="feature-desc">On orders over KSH 50,000</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💬</div>
+                        <div class="feature-title">24/7 Support</div>
+                        <div class="feature-desc">We're here to help</div>
+                    </div>
+                </div>
+                
+                <div class="message" style="font-size: 14px;">
+                    <p>If you didn't create an account with Femuki Agencies, please ignore this email or contact our support team.</p>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <div class="social-links">
+                    <a href="#">Facebook</a> •
+                    <a href="#">Instagram</a> •
+                    <a href="#">Twitter</a> •
+                    <a href="#">WhatsApp</a>
+                </div>
+                <p>
+                    Femuki Agencies<br>
+                    Nairobi, Kenya<br>
+                    📞 0797717981 | 💬 WhatsApp: 0791254076
+                </p>
+                <div class="copyright">
+                    &copy; 2024 Femuki Agencies. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
