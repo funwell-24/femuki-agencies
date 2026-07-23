@@ -14,13 +14,21 @@ class Config:
     DEBUG = os.environ.get('FLASK_DEBUG', 'False') == 'True'
     TESTING = False
     
-    # Database
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'mysql+pymysql://root:root123@localhost/femuki_marketplace')
+    # Database - PostgreSQL Connection
+    # Format: postgresql://username:password@host:port/database_name
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL', 
+        'postgresql://postgres:root123@localhost:5432/femuki_marketplace'
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_size': int(os.environ.get('DB_POOL_SIZE', 10)),
         'pool_recycle': int(os.environ.get('DB_POOL_RECYCLE', 3600)),
         'pool_pre_ping': True,
+        'connect_args': {
+            'connect_timeout': 10,
+            'application_name': 'femuki_marketplace'
+        }
     }
     
     # JWT
@@ -125,6 +133,18 @@ class DevelopmentConfig(Config):
     DEBUG = True
     TESTING = False
     LOG_LEVEL = 'DEBUG'
+    
+    # PostgreSQL specific development settings
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_size': 5,
+        'pool_recycle': 3600,
+        'pool_pre_ping': True,
+        'echo': False,  # Set to True to see SQL queries
+        'connect_args': {
+            'connect_timeout': 10,
+            'application_name': 'femuki_marketplace_dev'
+        }
+    }
 
 class ProductionConfig(Config):
     """Production configuration"""
@@ -136,6 +156,18 @@ class ProductionConfig(Config):
     # Use more secure settings in production
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Strict'
+    
+    # PostgreSQL production settings
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_size': 20,
+        'pool_recycle': 3600,
+        'pool_pre_ping': True,
+        'connect_args': {
+            'connect_timeout': 10,
+            'application_name': 'femuki_marketplace_prod',
+            'sslmode': 'require'  # Enable SSL in production
+        }
+    }
 
 class TestingConfig(Config):
     """Testing configuration"""
