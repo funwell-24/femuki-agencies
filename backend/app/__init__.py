@@ -18,6 +18,9 @@ celery = Celery(__name__)
 
 def create_app(config_name=None):
     """Application factory function"""
+    # Debug: Print environment variable
+    print(f"🔐 [BACKEND] CORS_ORIGINS env var: {os.environ.get('CORS_ORIGINS')}")
+    
     if config_name is None:
         config_name = os.environ.get('FLASK_ENV', 'development')
     
@@ -36,9 +39,10 @@ def create_app(config_name=None):
     def uploaded_file(filename):
         return send_from_directory(uploads_dir, filename)
     
-    # Configure CORS - Use config values
-    cors_origins = app.config.get('CORS_ORIGINS', ['http://localhost:5173'])
-    print(f"🔐 [BACKEND] CORS origins: {cors_origins}")
+    # Configure CORS - Read directly from environment variable
+    cors_origins_str = os.environ.get('CORS_ORIGINS', 'http://localhost:5173')
+    cors_origins = [origin.strip() for origin in cors_origins_str.split(',') if origin.strip()]
+    print(f"🔐 [BACKEND] CORS origins from env: {cors_origins}")
     
     CORS(app, 
          origins=cors_origins,
