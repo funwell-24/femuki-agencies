@@ -72,7 +72,6 @@ def initialize_extensions(app):
     """Initialize all Flask extensions"""
     db.init_app(app)
     migrate.init_app(app, db)
-    ma.init_app(app)
     jwt.init_app(app)
     mail.init_app(app)
     limiter.init_app(app)
