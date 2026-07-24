@@ -11,7 +11,7 @@ import os
 from datetime import datetime
 
 from .config import config
-from .extensions import db, ma, jwt, mail, migrate, limiter, cache, socketio
+from .extensions import db, jwt, mail, migrate, limiter, cache, socketio
 
 # Initialize Celery
 celery = Celery(__name__)
