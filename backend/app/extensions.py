@@ -1,6 +1,6 @@
 # backend/app/extensions.py
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
+
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 from flask_migrate import Migrate
@@ -12,7 +12,7 @@ from celery import Celery
 
 # Initialize extensions (without app)
 db = SQLAlchemy()
-ma = Marshmallow(db)  # <-- THIS IS THE FIX - Pass db to Marshmallow
+
 jwt = JWTManager()
 mail = Mail()
 migrate = Migrate()
