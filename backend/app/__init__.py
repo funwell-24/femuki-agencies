@@ -36,23 +36,25 @@ def create_app(config_name=None):
     def uploaded_file(filename):
         return send_from_directory(uploads_dir, filename)
     
-    # Handle OPTIONS requests globally
-    @app.before_request
-    def handle_preflight():
-        if request.method == "OPTIONS":
-            response = make_response()
-            response.headers.add("Access-Control-Allow-Origin", "*")
-            response.headers.add('Access-Control-Allow-Headers', "*")
-            response.headers.add('Access-Control-Allow-Methods', "*")
-            return response
+    # Configure CORS - Use config values
+    cors_origins = app.config.get('CORS_ORIGINS', ['http://localhost:5173'])
+    print(f"🔐 [BACKEND] CORS origins: {cors_origins}")
     
-    # Configure CORS
     CORS(app, 
-         origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+         origins=cors_origins,
          allow_headers=["Content-Type", "Authorization", "Accept", "X-Requested-With"],
          methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
          supports_credentials=True,
          expose_headers=["Content-Type", "Authorization"])
+    
+    # Ensure CORS headers are set on all responses
+    @app.after_request
+    def add_cors_headers(response):
+        response.headers.add('Access-Control-Allow-Origin', 'https://femuki.netlify.app')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS,PATCH')
+        return response
     
     # Initialize extensions
     initialize_extensions(app)
