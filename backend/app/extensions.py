@@ -12,7 +12,7 @@ from celery import Celery
 
 # Initialize extensions (without app)
 db = SQLAlchemy()
-ma = Marshmallow()
+ma = Marshmallow(db)  # <-- THIS IS THE FIX - Pass db to Marshmallow
 jwt = JWTManager()
 mail = Mail()
 migrate = Migrate()
@@ -92,7 +92,7 @@ celery = Celery(__name__)
 def init_extensions(app):
     """Initialize all extensions with app"""
     db.init_app(app)
-    ma.init_app(app)
+    ma.init_app(app)  # This will work now because ma was initialized with db
     jwt.init_app(app)
     mail.init_app(app)
     migrate.init_app(app, db)
